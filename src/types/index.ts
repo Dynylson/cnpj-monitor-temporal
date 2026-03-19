@@ -15,3 +15,8 @@ export interface CnpjData {
 export interface CnpjMonitorProps {
   cnpj: string;
 }
+
+export interface CheckStatusResult {
+  hasChanges: boolean;
+  changedFields: string[];
+}

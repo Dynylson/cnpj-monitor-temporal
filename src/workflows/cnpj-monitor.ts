@@ -2,7 +2,9 @@ import { proxyActivities } from '@temporalio/workflow';
 import type * as activities from '../activities';
 import { CnpjMonitorProps } from '../types';
 
-const { fetchCnpjActivity } = proxyActivities<typeof activities>({
+const { fetchCnpjActivity, checkStatusActivity } = proxyActivities<
+  typeof activities
+>({
   startToCloseTimeout: '30 seconds',
   retry: {
     maximumAttempts: 3,
@@ -10,5 +12,13 @@ const { fetchCnpjActivity } = proxyActivities<typeof activities>({
 });
 
 export async function cnpjMonitor({ cnpj }: CnpjMonitorProps) {
-  return fetchCnpjActivity(cnpj);
+  const data = await fetchCnpjActivity(cnpj);
+
+  const status = await checkStatusActivity(data);
+
+  if (status.hasChanges) {
+    // TODO: notificar por e-mail ou webhook
+  }
+
+  return { data, status };
 }
