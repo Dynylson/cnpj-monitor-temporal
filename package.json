@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "worker": "tsx src/worker.ts",
+    "worker": "tsx watch src/worker.ts",
     "client": "tsx src/client.ts"
   },
   "dependencies": {
